@@ -8,9 +8,30 @@
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "morgan": "~1.9.1"
-  }
+    "mongoose": "^6.0.10",
+    "morgan": "~1.9.1",
+    "validator": "^13.6.0"
+  },
+  "description": "A Todo app that show proof of concept on authenicating users",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HippieTaoist/express-mongodb-todo-auth.git"
+  },
+  "keywords": [
+    "todo",
+    "mongodb",
+    "mongoose",
+    "jwt"
+  ],
+  "author": "Shawn Kittel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HippieTaoist/express-mongodb-todo-auth/issues"
+  },
+  "homepage": "https://github.com/HippieTaoist/express-mongodb-todo-auth#readme"
 }
