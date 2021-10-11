@@ -36,6 +36,45 @@ async function getUsers(req, res) {
 
 async function createUser(req, res) {
 
+    const {
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+    } = req.body
+
+    try {
+        let salt = await bcrypt.gener(10);
+        let hashedPassword = await bcrypt.hash(password, salt)
+
+        const createdUser = new User({
+            firstName,
+            lastName,
+            username,
+            email,
+            password: hashedPassword,
+        })
+
+        let savedUser = await createdUser.save();
+
+        res.json({
+            message: "Success!!!",
+            payload: savedUser
+        })
+
+
+    } catch (err) {
+        res
+            .status(500)
+            .json({
+                message: "Error /createUser",
+                error: errorHandler(err)
+            })
+
+    }
+
+
 }
 
 module.exports = {
