@@ -45,7 +45,7 @@ async function createUser(req, res) {
     } = req.body
 
     try {
-        let salt = await bcrypt.gener(10);
+        let salt = await bcrypt.genSalt(10);
         let hashedPassword = await bcrypt.hash(password, salt)
 
         const createdUser = new User({
@@ -63,21 +63,116 @@ async function createUser(req, res) {
             payload: savedUser
         })
 
-
     } catch (err) {
         res
             .status(500)
             .json({
-                message: "Error /createUser",
-                error: errorHandler(err)
+                message: "Error in User Creation, Contact Support",
+                error: errorHandler(err),
             })
-
     }
 
 
 }
 
+async function loginUser(req, res) {
+
+    const {
+        email,
+        password,
+    } = req.body
+
+    try {
+        let foundUser = await User
+            .findOne({
+                email: email
+            })
+
+        if (!foundUser) {
+            return res
+                .status(500)
+                .json({
+                    message: "error",
+                    error: "Please Go SIgn Up!"
+                })
+        } else {
+            let comparedPassword = await bcrypt
+                .compare(
+                    password,
+                    foundUser.password);
+            if (!comparedPassword) {
+                return res
+                    .status(500)
+                    .json({
+                        message: "error",
+                        error: "Please check your email and password"
+                    })
+            } else {
+                let jwtToken = jwt
+                    .sign({
+                        email: foundUser.email,
+                        username: foundUser.username,
+                    }, process.env.SECRET_KEY, {
+                        expiresIn: "24h",
+                    })
+
+                return res.json({
+                    message: "Success",
+                    payload: jwtToken
+                })
+            }
+
+        }
+    } catch (err) {
+        res
+            .status(500)
+            .json({
+                message: "error",
+                error: err.message
+            })
+
+    }
+
+}
+
+async function updateUser(req, res) {
+    try {
+        const {
+            password
+        } = req.body
+
+        let decodedData = jwt.decode(req.headers.authorization.slice(7), process.env.SECRET_KEY)
+
+        let salt = await bcrypt.genSalt(10)
+        let hashedPassword = await bcrypt.hash(password, salt)
+
+        req.body.password = hashedPassword
+        console.log("Line XXX - decodedData.email -", decodedData.email)
+        let updatedUser = await User.findOneAndUpdate({
+
+                email: decodedData.email
+            },
+            req.body, {
+                new: true
+            })
+
+        res.json({
+            message: "Success",
+            payload: updatedUser
+        })
+    } catch (err) {
+        res
+            .status(500)
+            .json({
+                message: "error",
+                error: err.message
+            })
+    }
+}
+
 module.exports = {
     getUsers,
     createUser,
+    loginUser,
+    updateUser
 }
