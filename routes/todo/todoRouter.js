@@ -4,10 +4,10 @@ var jwt = require('jsonwebtoken');
 
 var {
     jwtMiddleware
-} = require('../users/lib/authMiddleware')
+} = require('../users/lib/authMiddleware/shared/jwtMiddleware')
 
 const Todo = require('./model/Todo');
-const User = require('./model/User');
+const User = require('../users/model/User');
 const errorHandler = require("../utils/errorHandler/errorHandler");
 
 const {
@@ -26,18 +26,18 @@ router.post('/create-todo', jwtMiddleware, async function (req, res) {
     try {
         const {
             todoDate,
-            todo,
-            done,
-            user,
-        }
+            todoNote,
+            todoDone,
+            todoUser,
+        } = req.body
 
         let errObj = {}
 
-        if (!isAlpha(todo)) {
-            errObj.todo = "Alphabet Titles Only"
+        if (!isAlpha(todoNote)) {
+            errObj.todoNote = "Alphabet Titles Only"
         }
 
-        if (Object.keys(todo).length > 0) {
+        if (Object.keys(errObj).length > 0) {
             return res
                 .status(500)
                 .json({
@@ -55,10 +55,8 @@ router.post('/create-todo', jwtMiddleware, async function (req, res) {
         })
 
         const createdTodo = new Todo({
-            date,
-            todo,
-            done,
-            user: foundUser._id
+            todoNote,
+            todoUser: foundUser._id
         })
 
         let savedTodo = await createdTodo.save();
@@ -74,11 +72,12 @@ router.post('/create-todo', jwtMiddleware, async function (req, res) {
 
     } catch (err) {
 
-        res
-            .status(500)
-            .json({
-                errorHandler(err)
-            })
-
+        res.status(500).json({
+            message: "Error creating ToDo",
+            error: err.message,
+        })
     }
 })
+
+
+module.exports = router
