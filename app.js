@@ -25,10 +25,12 @@ mongoose
     console.log('       [O      O]')
     console.log('      [M        M]')
     console.log('   [DB____________BD]')
+    console.log('')
     console.log('          YYYY')
     console.log('          EEEE')
     console.log('          SSSS')
   })
+  .catch(err => console.error(err));
 
 var app = express();
 
@@ -58,7 +60,8 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.json({
-    error: "error"
+    error: "error in app",
+    err: err.stack
   });
 });
 

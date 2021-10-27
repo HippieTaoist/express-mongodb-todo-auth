@@ -25,5 +25,4 @@ module.exports = {
     validateCreateData,
     validateLoginData,
     jwtMiddleware,
-
 }

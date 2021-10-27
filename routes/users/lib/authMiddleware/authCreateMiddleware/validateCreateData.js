@@ -37,7 +37,7 @@ function validateCreateData(req, res, next) {
         errObj.password = "Password must be 8characters, contain 1 letter, 1 nunmber, 1 special character, and one uppercase letter"
     }
 
-    if (object.keys(errObj).length > 0) {
+    if (Object.keys(errObj).length > 0) {
         return res.json({
             message: "error /validateCreateData",
             error: errObj

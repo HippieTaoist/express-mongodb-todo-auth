@@ -16,7 +16,7 @@ const {
     jwtMiddleware
 } = require("./lib/index")
 
-router.get('/', getUsers)
+router.get('/', jwtMiddleware, getUsers)
 
 router.post('/create-user',
     checkIsUndefined,

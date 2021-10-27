@@ -15,69 +15,52 @@ const {
     isInt
 } = require('validator');
 
+const {
+    createToDo
+} = require('./controller/todoController')
+
 router.get('/', function (req, res) {
     res.json({
         message: "todo is done! son!"
     })
 })
 
-router.post('/create-todo', jwtMiddleware, async function (req, res) {
+router.post('/create-todo', jwtMiddleware, createToDo)
+
+router.put('/update-todo-by-id/:id', jwtMiddleware, async function (req, res, next) {
+
+    const {
+        todoNote,
+        todoDone,
+    } = req.body
+
+    let decodedData = res.locals.decodedData
+
+    console.log("Line XXX - decodedData -", decodedData)
 
     try {
-        const {
-            todoDate,
-            todoNote,
-            todoDone,
-            todoUser,
-        } = req.body
-
-        let errObj = {}
-
-        if (!isAlpha(todoNote)) {
-            errObj.todoNote = "Alphabet Titles Only"
-        }
-
-        if (Object.keys(errObj).length > 0) {
-            return res
-                .status(500)
-                .json({
-                    message: "error /create-todo",
-                    error: errObj
-                })
-        }
-
-        let decodedData = jwt.decode(req.headers.authorization.slice(7), process.env.SECRET_KEY);
-
-        console.log("Line XXX - decodedData -", decodedData)
 
         let foundUser = await User.findOne({
             email: decodedData.email
         })
 
-        const createdTodo = new Todo({
-            todoNote,
-            todoUser: foundUser._id
-        })
+        console.log("Line XXX - foundUser -", foundUser)
 
-        let savedTodo = await createdTodo.save();
+        let foundTodo = await Todo.findById(req.params.id)
 
-        foundUser.todos.push(savedTodo._id)
+        console.log("Line XXX - foundTodo -", foundTodo)
 
-        await foundUser.save();
 
         res.json({
-            message: "Successfully Todo'd",
-            createdTodo
+            messsage: "Successfully Updated Message",
+            payload: updatedTodo
         })
-
     } catch (err) {
 
-        res.status(500).json({
-            message: "Error creating ToDo",
-            error: err.message,
-        })
     }
-})
 
+
+
+})
 
 module.exports = router
