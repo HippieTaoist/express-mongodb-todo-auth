@@ -1,10 +1,10 @@
 const {
     checkIsEmpty
-} = require('./shared/checkIsEmpty')
+} = require('./authMiddleware/shared/checkIsEmpty')
 
 const {
     checkIsUndefined
-} = require('./shared/checkIsUndefined')
+} = require('./authMiddleware/shared/checkIsUndefined')
 
 const {
     validateLoginData
@@ -17,7 +17,7 @@ const {
 
 const {
     jwtMiddleware
-} = require('./shared/jwtMiddleware')
+} = require('./authMiddleware/shared/jwtMiddleware')
 
 module.exports = {
     checkIsEmpty,

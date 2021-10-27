@@ -25,4 +25,6 @@ function validateLoginData(req, res, next) {
     }
 }
 
-module.exports = validateLoginData;
+module.exports = {
+    validateLoginData
+};

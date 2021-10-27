@@ -8,19 +8,19 @@ Over the weekend, remake the whole auth backend for a CRU(Create, Read, Update)T
 Submit Github repo link in
 Requirement:
 - Commit commit commit!
-- User can sign-up, login, update with JWT
+~~- User can sign-up, login, update with JWT~~
 
 - User will be able to make a todo list once signed it. Each todo is connected to the user and only that user will be able to see those todos.
 
-- User collection will have date, firstName, lastName, username, email, password and todos.
+~~- User collection will have date, firstName, lastName, username, email, password and todos.~~
 
-- Todo collection will have date, todo, done, and user.
+~~-Todo collection will have date, todo, done, and user.~~
 
 - Create Middlewares, include validator
 
-- Have a router, model and controller for user and todo
+~~- Have a router, model and controller for user and todo~~
 
-- Use MongoDB, mongoose, bcryptjs, JWT
+~~- Use MongoDB, mongoose, bcryptjs, JWT~~
 
 ~~- Include .env~~
 

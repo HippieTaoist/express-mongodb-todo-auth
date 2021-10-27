@@ -15,7 +15,19 @@ const mongoose = require('mongoose');
 mongoose
   .connect(process.env.MONGO_DB)
   .then(() => {
-    console.log('MONGO_DB Connected][detcennoC BD_OGNOM')
+    console.log('')
+    console.log(' [Con]            [noC]')
+    console.log(' [nec]            [cen]')
+    console.log(' [ted]            [det]')
+    console.log('          [OO]')
+    console.log('         [G  G]')
+    console.log('        [N    N]')
+    console.log('       [O      O]')
+    console.log('      [M        M]')
+    console.log('   [DB____________BD]')
+    console.log('          YYYY')
+    console.log('          EEEE')
+    console.log('          SSSS')
   })
 
 var app = express();
@@ -45,7 +57,9 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({
+    error: "error"
+  });
 });
 
 module.exports = app;

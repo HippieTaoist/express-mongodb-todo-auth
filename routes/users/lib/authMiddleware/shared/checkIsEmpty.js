@@ -25,3 +25,7 @@ function checkIsEmpty(req, res, next) {
     }
 
 }
+
+module.exports = {
+    checkIsEmpty
+}
